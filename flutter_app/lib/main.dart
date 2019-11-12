@@ -3,6 +3,7 @@ import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 void main() => runApp(MyApp());
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color(0xffff6101),
       ),
-      home: MyHomePage(title: 'Sales Dashboard 2018'),
+      home: MyHomePage(title: 'Fourkites Reports 2019'),
     );
   }
 }
@@ -77,6 +78,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),),
                   ),
 
+                  Padding(
+                    padding: EdgeInsets.all(3.0),
+                    child: RaisedButton(onPressed: (){
+                      Navigator.of(context)
+                          .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+                        return new SecondScreen();
+                      }));
+                    },child: Text('Learn more'),
+                      padding: const EdgeInsets.all(8.0),
+                      textColor: Colors.white,
+                      color: Colors.blue,
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -127,6 +141,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
 
+                  Padding(
+                    padding: EdgeInsets.all(3.0),
+                    child: RaisedButton(onPressed: (){
+                      Navigator.of(context)
+                          .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+                        return new SecondScreen();
+                      }));
+                    },child: Text('Learn more'),
+                      padding: const EdgeInsets.all(8.0),
+                      textColor: Colors.white,
+                      color: Colors.blue,
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -182,6 +209,20 @@ class _MyHomePageState extends State<MyHomePage> {
                       lineColor: Color(0xffff6101),
                       pointsMode: PointsMode.all,
                       pointSize: 8.0,
+                    ),
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.all(3.0),
+                    child: RaisedButton(onPressed: (){
+                      Navigator.of(context)
+                          .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+                        return new SecondScreen();
+                      }));
+                    },child: Text('Learn more'),
+                      padding: const EdgeInsets.all(8.0),
+                      textColor: Colors.white,
+                      color: Colors.blue,
                     ),
                   ),
 
@@ -245,6 +286,20 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                   ),
+
+                  Padding(
+                    padding: EdgeInsets.all(3.0),
+                    child: RaisedButton(onPressed: (){
+                      Navigator.of(context)
+                          .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+                        return new SecondScreen();
+                      }));
+                    },child: Text('Learn more'),
+                      padding: const EdgeInsets.all(11.0),
+                      textColor: Colors.white,
+                      color: Colors.blue,
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -279,7 +334,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: mychart1Items("Sales by Month","421.3M","+12.9% of target"),
+              child: mychart1Items("Number of P0s","3","-89% from last year"),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -296,9 +351,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
           ],
           staggeredTiles: [
-            StaggeredTile.extent(4, 250.0),
-            StaggeredTile.extent(4, 250.0),
-            StaggeredTile.extent(4, 250.0),
+            StaggeredTile.extent(4, 300.0),
+            StaggeredTile.extent(4, 300.0),
+            StaggeredTile.extent(4, 300.0),
             StaggeredTile.extent(4, 250.0)
           ],
         ),
@@ -306,3 +361,107 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+
+class SecondScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Detailed Report'),
+      ),
+      body: Center(
+        child: OrdinalComboBarLineChart.withSampleData()
+      ),
+    );
+  }
+}
+
+
+class OrdinalComboBarLineChart extends StatelessWidget {
+  final List<charts.Series> seriesList;
+  final bool animate;
+
+  OrdinalComboBarLineChart(this.seriesList, {this.animate});
+
+  factory OrdinalComboBarLineChart.withSampleData() {
+    return new OrdinalComboBarLineChart(
+      _createSampleData(),
+      // Disable animations for image tests.
+      animate: false,
+    );
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return new charts.OrdinalComboChart(seriesList,
+        animate: animate,
+        // Configure the default renderer as a bar renderer.
+        defaultRenderer: new charts.BarRendererConfig(
+            groupingType: charts.BarGroupingType.grouped),
+        // Custom renderer configuration for the line series. This will be used for
+        // any series that does not define a rendererIdKey.
+        customSeriesRenderers: [
+          new charts.LineRendererConfig(
+            // ID used to link series to this renderer.
+              customRendererId: 'customLine')
+        ]);
+  }
+
+  /// Create series list with multiple series
+  static List<charts.Series<OrdinalSales, String>> _createSampleData() {
+    final desktopSalesData = [
+      new OrdinalSales('2014', 5),
+      new OrdinalSales('2015', 25),
+      new OrdinalSales('2016', 100),
+      new OrdinalSales('2017', 75),
+    ];
+
+    final tableSalesData = [
+      new OrdinalSales('2014', 5),
+      new OrdinalSales('2015', 25),
+      new OrdinalSales('2016', 100),
+      new OrdinalSales('2017', 75),
+    ];
+
+    final mobileSalesData = [
+      new OrdinalSales('2014', 10),
+      new OrdinalSales('2015', 50),
+      new OrdinalSales('2016', 200),
+      new OrdinalSales('2017', 150),
+    ];
+
+    return [
+      new charts.Series<OrdinalSales, String>(
+          id: 'Desktop',
+          colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+          domainFn: (OrdinalSales sales, _) => sales.year,
+          measureFn: (OrdinalSales sales, _) => sales.sales,
+          data: desktopSalesData),
+      new charts.Series<OrdinalSales, String>(
+          id: 'Tablet',
+          colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+          domainFn: (OrdinalSales sales, _) => sales.year,
+          measureFn: (OrdinalSales sales, _) => sales.sales,
+          data: tableSalesData),
+      new charts.Series<OrdinalSales, String>(
+          id: 'Mobile ',
+          colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+          domainFn: (OrdinalSales sales, _) => sales.year,
+          measureFn: (OrdinalSales sales, _) => sales.sales,
+          data: mobileSalesData)
+      // Configure our custom line renderer for this series.
+        ..setAttribute(charts.rendererIdKey, 'customLine'),
+    ];
+  }
+}
+
+/// Sample ordinal data type.
+class OrdinalSales {
+  final String year;
+  final int sales;
+
+  OrdinalSales(this.year, this.sales);
+}
+
